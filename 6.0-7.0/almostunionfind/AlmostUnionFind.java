@@ -2,13 +2,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.Integer;
-import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class AlmostUnionFind {
     private static int[] parent;
-    private static BigInteger[] sum;
+    private static long[] sum;
     private static int[] num;
 
     private static int find(int i){
@@ -21,13 +20,13 @@ public class AlmostUnionFind {
     private static void init(int n){
         int max = (n * 2) + 1;
         parent = new int[max];
-        sum    = new BigInteger[max];
+        sum    = new long[max];
         num    = new int[max];
 
         for(int i = 1; i <= n; i++){
             parent[i]   = i+n;
             parent[i+n] = i+n;
-            sum[i+n] = new BigInteger(i + "");
+            sum[i+n] = i;
             num[i+n] = 1;
         }
     }
@@ -54,13 +53,13 @@ public class AlmostUnionFind {
                     switch(method){
                         case "1":
                             parent[x] = y;
-                            sum[y] = sum[y].add(sum[x]);
+                            sum[y] += sum[x];
                             num[y] += num[x];
                             break;
                         case "2":
                             parent[p] = y;
-                            sum[y] = sum[y].add(new BigInteger(p + ""));
-                            sum[x] = sum[x].subtract(new BigInteger(p + ""));
+                            sum[y] += p;
+                            sum[x] -= p;
                             num[y]++;
                             num[x]--;
                             break;
